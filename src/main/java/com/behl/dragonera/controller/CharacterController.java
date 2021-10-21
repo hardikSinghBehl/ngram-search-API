@@ -22,12 +22,12 @@ public class CharacterController {
     @GetMapping(value = "/characters", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public ResponseEntity<CharacterResponseWrapperDto> characterSearchRetreivalHandler(
-            @RequestParam(name = "keyword", required = true) final String keyword,
+            @RequestParam(name = "keyword", required = false) final String keyword,
             @RequestParam(name = "count", required = false) Integer count,
-            @RequestParam(name = "page", required = true) final Integer pageNumber) {
+            @RequestParam(name = "page", required = false) final Integer pageNumber) {
         final var response = characterService.findAllMatching(keyword, pageNumber, count);
         return ResponseEntity.ok(CharacterResponseWrapperDto.builder().count(response.size())
-                .page(response.size() == 0 ? null : pageNumber).result(response).build());
+                .page(response.size() == 0 ? null : pageNumber == null ? 1 : pageNumber).result(response).build());
     }
 
 }
