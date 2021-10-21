@@ -1,0 +1,6 @@
+CREATE TABLE characters (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  bio VARCHAR(255) NOT NULL,
+  FULLTEXT (name,bio) WITH PARSER ngram
+);
