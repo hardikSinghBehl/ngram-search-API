@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.behl.dragonera.dto.CharacterResponseWrapperDto;
+import com.behl.dragonera.dto.SearchResponseDto;
 import com.behl.dragonera.service.CharacterService;
 
 import lombok.AllArgsConstructor;
@@ -21,12 +21,12 @@ public class CharacterController {
 
     @GetMapping(value = "/characters", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<CharacterResponseWrapperDto> characterSearchRetreivalHandler(
+    public ResponseEntity<SearchResponseDto> characterSearchRetreivalHandler(
             @RequestParam(name = "keyword", required = false) final String keyword,
             @RequestParam(name = "count", required = false) Integer count,
             @RequestParam(name = "page", required = false) final Integer pageNumber) {
         final var response = characterService.findAllMatching(keyword, pageNumber, count);
-        return ResponseEntity.ok(CharacterResponseWrapperDto.builder().count(response.size())
+        return ResponseEntity.ok(SearchResponseDto.builder().count(response.size())
                 .page(response.size() == 0 ? null : pageNumber == null ? 1 : pageNumber).result(response).build());
     }
 
